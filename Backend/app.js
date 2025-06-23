@@ -1,8 +1,8 @@
 const express = require('express');
 const bookRouter = require('./routes/bookRoutes');
 const userRouter = require('./routes/userRoutes');
-const reservationRouter = require('./routes/reservationRoutes');
 const categoryRouter = require('./routes/categoryRoutes');
+const reservationRouter = require('./routes/reservationRoutes');
 const AppError = require("./utils/appError");
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -35,8 +35,8 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/books', bookRouter);
 app.use('/api/v1/users', userRouter);
-app.use('/api/v1/reservations', reservationRouter);
 app.use('/api/v1/categories', categoryRouter);
+app.use('/api/v1/reservations', reservationRouter);
 
 
 app.all(/(.*)/, (req, res, next) => {

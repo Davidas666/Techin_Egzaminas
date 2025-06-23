@@ -10,6 +10,14 @@ export default function Register({ onClose, onRegisterSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    if (!email.includes('@')) {
+      setError('El. paštas turi turėti @');
+      return;
+    }
+    if (password.length < 5) {
+      setError('Slaptažodis turi būti bent 5 simbolių');
+      return;
+    }
     if (password !== passwordconfirm) {
       setError('Slaptažodžiai nesutampa');
       return;
@@ -37,13 +45,13 @@ export default function Register({ onClose, onRegisterSuccess }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
+      <div className="card rounded-lg shadow-lg w-full max-w-xs p-8">
         <h2 className="text-xl font-bold mb-4 text-center">Registruotis</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
             placeholder="Vartotojo vardas"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-green-300"
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-[color:var(--color-brown)]"
             value={username}
             onChange={e => setUsername(e.target.value)}
             required
@@ -51,7 +59,7 @@ export default function Register({ onClose, onRegisterSuccess }) {
           <input
             type="email"
             placeholder="El. paštas"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-green-300"
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-[color:var(--color-brown)]"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
@@ -59,7 +67,7 @@ export default function Register({ onClose, onRegisterSuccess }) {
           <input
             type="password"
             placeholder="Slaptažodis"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-green-300"
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-[color:var(--color-brown)]"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
@@ -67,14 +75,14 @@ export default function Register({ onClose, onRegisterSuccess }) {
           <input
             type="password"
             placeholder="Pakartokite slaptažodį"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-green-300"
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-[color:var(--color-brown)]"
             value={passwordconfirm}
             onChange={e => setPasswordConfirm(e.target.value)}
             required
           />
           {error && <div className="text-red-500 text-sm text-center">{error}</div>}
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition">Registruotis</button>
-          <button type="button" onClick={onClose} className="text-gray-500 hover:underline text-sm mt-2">Uždaryti</button>
+          <button type="submit" style={{backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)'}} className="rounded px-4 py-2 font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]">Registruotis</button>
+          <button type="button" onClick={onClose} style={{backgroundColor: 'var(--color-orange)', color: 'var(--color-brown)', border: '2px solid var(--color-yellow)'}} className="rounded px-4 py-2 font-bold transition hover:bg-[color:var(--color-yellow)] hover:text-[color:var(--color-orange)]">Uždaryti</button>
         </form>
       </div>
     </div>

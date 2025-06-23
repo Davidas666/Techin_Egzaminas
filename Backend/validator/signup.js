@@ -9,7 +9,7 @@ const validateNewUser = [
     .notEmpty()
     .withMessage('Email is required')
     .isEmail()
-    .withMessage('Email is invalid')
+    .withMessage('Email is invalid (turi būti @)')
     .normalizeEmail() // Sanitize email address
     .custom(async (value) => {
        const user = await getUserByEmail(value); // Query the database
@@ -24,9 +24,8 @@ body('username').notEmpty().withMessage('Username is required'),
 body('password')
     .notEmpty()
     .withMessage('Password is required')
-    // .isLength({ min: 8 })
-    // .withMessage('Password must be at least 8 characters')
-   // .matches(/^( ?=.* \d)( ?=.* [a-z])( ?=.* [A-Z]). {8, }$/)
+    .isLength({ min: 5 })
+    .withMessage('Password must be at least 5 characters')
     // Custom validation to check if passwords match,
     .custom(async (value, { req }) => {
         if (value !== req.body.passwordconfirm) {

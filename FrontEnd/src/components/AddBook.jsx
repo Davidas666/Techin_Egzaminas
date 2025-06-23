@@ -64,15 +64,15 @@ export default function AddBook({ onClose, onBookAdded }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="card rounded-lg shadow-lg w-full max-w-md p-8">
         <h2 className="text-xl font-bold mb-4 text-center">Pridėti knygą</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <input type="text" placeholder="Pavadinimas" value={title} onChange={e => setTitle(e.target.value)} className="border rounded px-3 py-2" required />
-          <input type="text" placeholder="Autorius" value={author} onChange={e => setAuthor(e.target.value)} className="border rounded px-3 py-2" required />
-          <input type="text" placeholder="ISBN" value={isbn} onChange={e => setIsbn(e.target.value)} className="border rounded px-3 py-2" />
-          <input type="text" placeholder="Paveikslėlio nuoroda" value={imageUrl} onChange={e => setImageUrl(e.target.value)} className="border rounded px-3 py-2" />
-          <textarea placeholder="Aprašymas" value={description} onChange={e => setDescription(e.target.value)} className="border rounded px-3 py-2" />
-          <select value={categoryId} onChange={e => setCategoryId(e.target.value)} className="border rounded px-3 py-2" required>
+          <input type="text" placeholder="Pavadinimas" value={title} onChange={e => setTitle(e.target.value)} className="border rounded px-3 py-2 bg-white text-[color:var(--color-brown)]" required />
+          <input type="text" placeholder="Autorius" value={author} onChange={e => setAuthor(e.target.value)} className="border rounded px-3 py-2 bg-white text-[color:var(--color-brown)]" required />
+          <input type="text" placeholder="ISBN" value={isbn} onChange={e => setIsbn(e.target.value)} className="border rounded px-3 py-2 bg-white text-[color:var(--color-brown)]" />
+          <input type="text" placeholder="Paveikslėlio nuoroda" value={imageUrl} onChange={e => setImageUrl(e.target.value)} className="border rounded px-3 py-2 bg-white text-[color:var(--color-brown)]" />
+          <textarea placeholder="Aprašymas" value={description} onChange={e => setDescription(e.target.value)} className="border rounded px-3 py-2 bg-white text-[color:var(--color-brown)]" />
+          <select value={categoryId} onChange={e => setCategoryId(e.target.value)} className="border rounded px-3 py-2 bg-white text-[color:var(--color-brown)]" required>
             <option value="">Pasirinkite kategoriją</option>
             {categories.map(cat => (
               <option key={cat.id} value={cat.id}>{cat.name}</option>
@@ -80,8 +80,8 @@ export default function AddBook({ onClose, onBookAdded }) {
           </select>
           {error && <div className="text-red-500 text-sm text-center">{error}</div>}
           {success && <div className="text-green-600 text-sm text-center">{success}</div>}
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition" disabled={loading}>{loading ? 'Pridedama...' : 'Pridėti'}</button>
-          <button type="button" onClick={onClose} className="text-gray-500 hover:underline text-sm mt-2">Uždaryti</button>
+          <button type="submit" style={{backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)'}} className="rounded px-4 py-2 font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]" disabled={loading}>{loading ? 'Pridedama...' : 'Pridėti'}</button>
+          <button type="button" onClick={onClose} style={{backgroundColor: 'var(--color-orange)', color: 'var(--color-brown)', border: '2px solid var(--color-yellow)'}} className="rounded px-4 py-2 font-bold transition hover:bg-[color:var(--color-yellow)] hover:text-[color:var(--color-orange)]">Uždaryti</button>
         </form>
       </div>
     </div>

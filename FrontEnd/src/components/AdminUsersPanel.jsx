@@ -80,16 +80,16 @@ export default function AdminUsersPanel() {
                   user.role
                 )}
               </td>
-              <td>
+              <td className="flex flex-col sm:flex-row gap-2 py-2">
                 {editId === user.id ? (
                   <>
-                    <button onClick={() => handleSave(user.id)}>Išsaugoti</button>
-                    <button onClick={() => setEditId(null)}>Atšaukti</button>
+                    <button onClick={() => handleSave(user.id)} style={{backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)'}} className="rounded px-3 py-1 font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]">Išsaugoti</button>
+                    <button onClick={() => setEditId(null)} style={{backgroundColor: 'var(--color-orange)', color: 'var(--color-brown)', border: '2px solid var(--color-yellow)'}} className="rounded px-3 py-1 font-bold transition hover:bg-[color:var(--color-yellow)] hover:text-[color:var(--color-orange)]">Atšaukti</button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEdit(user)}>Keisti rolę</button>
-                    <button onClick={() => handleDelete(user.id)}>Trinti</button>
+                    <button onClick={() => handleEdit(user)} style={{backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)'}} className="rounded px-3 py-1 font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]">Keisti rolę</button>
+                    <button onClick={() => handleDelete(user.id)} style={{backgroundColor: 'var(--color-orange)', color: 'var(--color-brown)', border: '2px solid var(--color-yellow)'}} className="rounded px-3 py-1 font-bold transition hover:bg-[color:var(--color-yellow)] hover:text-[color:var(--color-orange)]">Trinti</button>
                   </>
                 )}
               </td>

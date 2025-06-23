@@ -101,15 +101,13 @@ function App() {
       {showRegister && <Register onClose={() => setShowRegister(false)} onRegisterSuccess={handleRegisterSuccess} />}
       {showAddBook && <AddBook onClose={() => setShowAddBook(false)} onBookAdded={() => { setShowAddBook(false); setReloadBooks(r => !r); }} />}
       <div className="pt-24">
-        {!showBooks && !showMyReservations && !showAdminPanel && !showUsersPanel && (
-          <div className="card">
-            <h1>Sveiki atvykę!</h1>
-          </div>
-        )}
         {showBooks && <Books reload={reloadBooks} />}
         {showMyReservations && <MyReservations />}
         {showAdminPanel && userRole === 'admin' && <AdminBooksPanel />}
         {showUsersPanel && userRole === 'admin' && <AdminUsersPanel />}
+        {!showBooks && !showMyReservations && !showAdminPanel && !showUsersPanel && (
+          userRole === 'admin' ? <AdminBooksPanel /> : <Books reload={reloadBooks} />
+        )}
       </div>
     </>
   )

@@ -7,7 +7,7 @@ exports.getBookReservations = async (book_id) => {
   return reservations;
 };
 
-exports.createReservation = async (userId, bookId, returnDate) => {
+exports.createReservation = async (userId, bookId) => {
   // Patikriname, ar knyga jau rezervuota
   const [existing] = await sql`
     SELECT * FROM reservations WHERE book_id = ${bookId}
@@ -17,9 +17,14 @@ exports.createReservation = async (userId, bookId, returnDate) => {
     error.code = 'BOOK_ALREADY_RESERVED';
     throw error;
   }
+  // Automatiškai nustatome grąžinimo datą +7 dienos nuo šiandien
+  const today = new Date();
+  const returnDate = new Date(today);
+  returnDate.setDate(today.getDate() + 7);
+  const returnDateStr = returnDate.toISOString().split('T')[0];
   const [reservation] = await sql`
-    INSERT INTO reservations (user_id, book_id, reservation_date)
-    VALUES (${userId}, ${bookId}, ${returnDate})
+    INSERT INTO reservations (user_id, book_id, reservation_date, return_date, extension_count)
+    VALUES (${userId}, ${bookId}, ${today.toISOString().split('T')[0]}, ${returnDateStr}, 0)
     RETURNING *
   `;
   return reservation;

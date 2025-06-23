@@ -34,13 +34,13 @@ export default function Login({ onClose, onLoginSuccess }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xs">
+      <div className="card rounded-lg shadow-lg w-full max-w-xs p-8">
         <h2 className="text-xl font-bold mb-4 text-center">Prisijungti</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="email"
             placeholder="El. paštas"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400:b color bg-green-300"
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-[color:var(--color-brown)]"
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
@@ -48,14 +48,14 @@ export default function Login({ onClose, onLoginSuccess }) {
           <input
             type="password"
             placeholder="Slaptažodis"
-            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400:b color bg-green-300"
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-white text-[color:var(--color-brown)]"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
           {error && <div className="text-red-500 text-sm text-center">{error}</div>}
-          <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition">Prisijungti</button>
-          <button type="button" onClick={onClose} className="text-gray-500 hover:underline text-sm mt-2">Uždaryti</button>
+          <button type="submit" style={{backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)'}} className="rounded px-4 py-2 font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]">Prisijungti</button>
+          <button type="button" onClick={onClose} style={{backgroundColor: 'var(--color-orange)', color: 'var(--color-brown)', border: '2px solid var(--color-yellow)'}} className="rounded px-4 py-2 font-bold transition hover:bg-[color:var(--color-yellow)] hover:text-[color:var(--color-orange)]">Uždaryti</button>
         </form>
       </div>
     </div>

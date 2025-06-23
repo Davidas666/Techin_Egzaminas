@@ -46,20 +46,19 @@ export default function Books() {
 
   return (
     <div className="pt-0 px-4 mt-0">
-      <div className="flex items-center mb-4 -mt-8 gap-4">
-        <h1 className="text-2xl font-bold mr-4">Knygos</h1>
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center mb-4 -mt-8 gap-2 sm:gap-4 w-full max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold mr-0 sm:mr-4 mb-2 sm:mb-0">Knygos</h1>
         <input
           type="text"
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Ieškoti pagal pavadinimą, autorių ar aprašymą"
-          className="border rounded px-3 py-2"
-          style={{ minWidth: 200 }}
+          className="border rounded px-3 py-2 flex-1 min-w-0"
         />
         <select
           value={selectedCategory}
           onChange={e => setSelectedCategory(e.target.value)}
-          className="border rounded px-3 py-2"
+          className="border rounded px-3 py-2 flex-1 min-w-0"
         >
           <option value="">Visos kategorijos</option>
           {categories.map(cat => (
