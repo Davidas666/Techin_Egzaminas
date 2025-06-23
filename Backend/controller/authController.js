@@ -16,7 +16,6 @@ const sendTokenCookie = (token, res) => {
     res.cookie('jwt', token, cookieOptions);
 };
 
-// User signup
 exports.signup = async (req, res, next) => {
     try {
         const newUser = req.body;
