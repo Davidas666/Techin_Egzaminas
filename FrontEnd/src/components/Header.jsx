@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Header({ onLoginClick, isLoggedIn, onLogout, onEkskursijosClick, onMyToursClick, userRole, onAddBook, onManageUsers }) {
+export default function Header({ onLoginClick, isLoggedIn, onLogout, onEkskursijosClick, onMyToursClick, userRole, onAddBook, onManageUsers, onAdminBooksPanel }) {
   const handleEkskursijosClick = () => {
     onEkskursijosClick('/books');
   };
@@ -34,6 +34,13 @@ export default function Header({ onLoginClick, isLoggedIn, onLogout, onEkskursij
               onClick={() => onAddBook && onAddBook()}
             >
               Pridėti knygą
+            </button>
+            <button
+              style={{ backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)' }}
+              className="px-4 py-2 rounded font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]"
+              onClick={() => onAdminBooksPanel && onAdminBooksPanel()}
+            >
+              Knygų valdymas
             </button>
             <button
               style={{ backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)' }}
@@ -84,4 +91,5 @@ Header.propTypes = {
   userRole: PropTypes.string,
   onAddBook: PropTypes.func,
   onManageUsers: PropTypes.func,
+  onAdminBooksPanel: PropTypes.func,
 };

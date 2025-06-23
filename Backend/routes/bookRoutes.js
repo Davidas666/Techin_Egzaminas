@@ -18,7 +18,7 @@ router.route('/')
 
 router.route('/:id')
   .get(getBookById)
-  .put(protect, allowAccessTo('admin', 'user'), validateNewBook, validate, updateBook)
+  .put(protect, allowAccessTo('admin', 'user'), updateBook)
   .delete(protect, allowAccessTo('admin', 'user'), deleteBook);
 
 module.exports = router;

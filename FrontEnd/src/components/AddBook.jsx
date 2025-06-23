@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AddBook({ onClose, onBookAdded }) {
   const [title, setTitle] = useState('');
@@ -9,6 +9,14 @@ export default function AddBook({ onClose, onBookAdded }) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
+
+  useEffect(() => {
+    fetch('http://localhost:3000/api/v1/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data.data || []));
+  }, []);
 
   const validate = () => {
     if (!title.trim() || !author.trim()) return 'Pavadinimas ir autorius privalomi';
@@ -36,7 +44,8 @@ export default function AddBook({ onClose, onBookAdded }) {
           author,
           isbn,
           description,
-          image_url: imageUrl
+          image_url: imageUrl,
+          category_id: categoryId // pridėta kategorija
         })
       });
       const data = await res.json();
@@ -44,7 +53,7 @@ export default function AddBook({ onClose, onBookAdded }) {
         setError(data.message || 'Nepavyko pridėti knygos');
       } else {
         setSuccess('Knyga sėkmingai pridėta!');
-        setTitle(''); setAuthor(''); setIsbn(''); setDescription(''); setImageUrl('');
+        setTitle(''); setAuthor(''); setIsbn(''); setDescription(''); setImageUrl(''); setCategoryId('');
         if (onBookAdded) onBookAdded();
       }
     } catch (err) {
@@ -63,6 +72,12 @@ export default function AddBook({ onClose, onBookAdded }) {
           <input type="text" placeholder="ISBN" value={isbn} onChange={e => setIsbn(e.target.value)} className="border rounded px-3 py-2" />
           <input type="text" placeholder="Paveikslėlio nuoroda" value={imageUrl} onChange={e => setImageUrl(e.target.value)} className="border rounded px-3 py-2" />
           <textarea placeholder="Aprašymas" value={description} onChange={e => setDescription(e.target.value)} className="border rounded px-3 py-2" />
+          <select value={categoryId} onChange={e => setCategoryId(e.target.value)} className="border rounded px-3 py-2" required>
+            <option value="">Pasirinkite kategoriją</option>
+            {categories.map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
           {error && <div className="text-red-500 text-sm text-center">{error}</div>}
           {success && <div className="text-green-600 text-sm text-center">{success}</div>}
           <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600 transition" disabled={loading}>{loading ? 'Pridedama...' : 'Pridėti'}</button>

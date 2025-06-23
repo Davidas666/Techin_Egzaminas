@@ -4,7 +4,8 @@ const AppError = require('../utils/appError');
 
 exports.getAllBooks = async (req, res, next) => {
   try {
-    const books = await getAllBooks();
+    const categoryId = req.query.category_id;
+    const books = await getAllBooks(categoryId);
     res.status(200).json({ status: 'success', data: books });
   } catch (error) {
     next(error);

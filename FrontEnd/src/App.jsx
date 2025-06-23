@@ -6,6 +6,7 @@ import Register from './components/Register.jsx'
 import Books from './components/Books.jsx';
 import MyReservations from './components/MyReservations.jsx';
 import AddBook from './components/AddBook.jsx';
+import AdminBooksPanel from './components/AdminBooksPanel.jsx';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 function App() {
   const [showLogin, setShowLogin] = useState(false)
@@ -29,6 +30,7 @@ function App() {
   const [showBooks, setShowBooks] = useState(false);
   const [showMyReservations, setShowMyReservations] = useState(false);
   const [showAddBook, setShowAddBook] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [reloadBooks, setReloadBooks] = useState(false);
   const navigate = useNavigate();
   const handleLoginSuccess = (user) => {
@@ -71,25 +73,33 @@ function App() {
           else {
             setShowBooks(true);
             setShowMyReservations(false);
+            setShowAdminPanel(false);
           }
         }}
         onMyToursClick={() => {
           setShowMyReservations(true);
           setShowBooks(false);
+          setShowAdminPanel(false);
         }}
         onAddBook={() => setShowAddBook(true)}
+        onAdminBooksPanel={() => {
+          setShowAdminPanel(true);
+          setShowBooks(false);
+          setShowMyReservations(false);
+        }}
       />
       {showLogin && <Login onClose={() => setShowLogin(false)} onLoginSuccess={handleLoginSuccess} />}
       {showRegister && <Register onClose={() => setShowRegister(false)} onRegisterSuccess={handleRegisterSuccess} />}
       {showAddBook && <AddBook onClose={() => setShowAddBook(false)} onBookAdded={() => { setShowAddBook(false); setReloadBooks(r => !r); }} />}
       <div className="pt-24">
-        {!showBooks && !showMyReservations && (
+        {!showBooks && !showMyReservations && !showAdminPanel && (
           <div className="card">
             <h1>Sveiki atvykę!</h1>
           </div>
         )}
         {showBooks && <Books reload={reloadBooks} />}
         {showMyReservations && <MyReservations />}
+        {showAdminPanel && userRole === 'admin' && <AdminBooksPanel />}
       </div>
     </>
   )

@@ -1,19 +1,34 @@
 const { sql } = require("../dbConnection")
 
 
-exports.getAllBooks = async () => {
-    const tourList = await sql`
-        SELECT 
-            id,
-            title, 
-            author, 
-            image_url, 
-            published_date,
-            isbn,
-            description
-        FROM books
-    `;
-    return tourList;
+exports.getAllBooks = async (categoryId) => {
+    if (categoryId) {
+        const books = await sql`
+            SELECT 
+                id,
+                title, 
+                author, 
+                image_url, 
+                published_date,
+                isbn,
+                description
+            FROM books WHERE category_id = ${categoryId}
+        `;
+        return books;
+    } else {
+        const books = await sql`
+            SELECT 
+                id,
+                title, 
+                author, 
+                image_url, 
+                published_date,
+                isbn,
+                description
+            FROM books
+        `;
+        return books;
+    }
 };
 
 exports.getBookById = async (id) => {
@@ -32,16 +47,16 @@ exports.getBookById = async (id) => {
 };
 
 exports.updateBook = async (id, bookData) => {
+    console.log('updateBook data:', bookData); // DEBUG
     const [updatedBook] = await sql`
         UPDATE books SET
             title = ${bookData.title},
             author = ${bookData.author},
             image_url = ${bookData.image_url},
-            published_date = ${bookData.published_date},
+            published_date = ${bookData.published_date || null},
             isbn = ${bookData.isbn},
-            genre = ${bookData.genre},
             description = ${bookData.description},
-            available_copies = ${bookData.available_copies}
+            category_id = ${bookData.category_id || null}
         WHERE id = ${id}
         RETURNING *
     `;
@@ -59,14 +74,15 @@ exports.deleteBook = async (id) => {
 
 exports.createBook = async (bookData) => {
   const [book] = await sql`
-    INSERT INTO books (title, author, isbn, description, image_url, published_date)
+    INSERT INTO books (title, author, isbn, description, image_url, published_date, category_id)
     VALUES (
       ${bookData.title},
       ${bookData.author},
       ${bookData.isbn || null},
       ${bookData.description || null},
       ${bookData.image_url || null},
-      ${bookData.published_date || null}
+      ${bookData.published_date || null},
+      ${bookData.category_id || null}
     )
     RETURNING *
   `;
