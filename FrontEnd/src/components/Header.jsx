@@ -9,7 +9,7 @@ export default function Header({ onLoginClick, isLoggedIn, onLogout, onEkskursij
 
   return (
     <header className="w-full fixed top-0 left-0 z-50 bg-white shadow-md flex items-center justify-between px-4 sm:px-8 py-4">
-      <div className="text-2xl font-bold text-blue-600">Knygų sistema</div>
+      <div className="text-2xl font-bold text-blue-600">Biblioteka</div>
       <button className="sm:hidden flex flex-col justify-center items-center w-10 h-10" onClick={() => setMenuOpen(m => !m)} aria-label="Meniu">
         <span className={`block w-6 h-0.5 bg-blue-700 mb-1 transition-all ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
         <span className={`block w-6 h-0.5 bg-blue-700 mb-1 transition-all ${menuOpen ? 'opacity-0' : ''}`}></span>

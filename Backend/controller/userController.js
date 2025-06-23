@@ -1,5 +1,5 @@
 const { sql } = require('../dbConnection');
-const { getAllUsers, deleteUser, updateUserRole } = require('../models/userModel');
+const { getAllUsers, deleteUser, updateUserRole, updateUserUsername } = require('../models/userModel');
 
 // Grąžina visas ekskursijas, į kurias useris užsirašė
 exports.getMyTours = async (req, res, next) => {
@@ -45,8 +45,23 @@ exports.updateUserRole = async (req, res, next) => {
   try {
     const id = req.params.id;
     const { role } = req.body;
-    if (!role) return res.status(400).json({ status: 'fail', message: 'Rolė privaloma' });
+    if (!role) return res.status(400).json({ status: 'fail', message: 'Role privaloma' });
     const updated = await updateUserRole(id, role);
+    if (!updated) {
+      return res.status(404).json({ status: 'fail', message: 'Vartotojas nerastas' });
+    }
+    res.status(200).json({ status: 'success', data: updated });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateUserUsername = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const { username } = req.body;
+    if (!username) return res.status(400).json({ status: 'fail', message: 'Username privalomas' });
+    const updated = await updateUserUsername(id, username);
     if (!updated) {
       return res.status(404).json({ status: 'fail', message: 'Vartotojas nerastas' });
     }

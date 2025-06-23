@@ -41,3 +41,9 @@ exports.updateUserRole = async (id, role) => {
         UPDATE users SET role = ${role} WHERE id = ${id} RETURNING id, username, email, role`;
     return updated;
 };
+
+exports.updateUserUsername = async (id, username) => {
+    const [updated] = await sql`
+        UPDATE users SET username = ${username} WHERE id = ${id} RETURNING id, username, email, role`;
+    return updated;
+};

@@ -6,6 +6,7 @@ export default function AdminUsersPanel() {
   const [error, setError] = useState('');
   const [editId, setEditId] = useState(null);
   const [editRole, setEditRole] = useState('user');
+  const [editUsername, setEditUsername] = useState('');
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -36,9 +37,20 @@ export default function AdminUsersPanel() {
   const handleEdit = (user) => {
     setEditId(user.id);
     setEditRole(user.role);
+    setEditUsername(user.username);
   };
 
   const handleSave = async (id) => {
+    // Pakeisti username jei buvo pakeistas
+    if (editUsername.trim() !== users.find(u => u.id === id)?.username) {
+      await fetch(`http://localhost:3000/api/v1/users/${id}/username`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username: editUsername })
+      });
+    }
+    // Pakeisti rolę jei buvo pakeista
     await fetch(`http://localhost:3000/api/v1/users/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -68,7 +80,13 @@ export default function AdminUsersPanel() {
           {users.map(user => (
             <tr key={user.id} className="border-b">
               <td>{user.id}</td>
-              <td>{user.username}</td>
+              <td>
+                {editId === user.id ? (
+                  <input value={editUsername} onChange={e => setEditUsername(e.target.value)} className="border px-2" />
+                ) : (
+                  user.username
+                )}
+              </td>
               <td>{user.email}</td>
               <td>
                 {editId === user.id ? (
@@ -88,7 +106,7 @@ export default function AdminUsersPanel() {
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEdit(user)} style={{backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)'}} className="rounded px-3 py-1 font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]">Keisti rolę</button>
+                    <button onClick={() => handleEdit(user)} style={{backgroundColor: 'var(--color-yellow)', color: 'var(--color-brown)', border: '2px solid var(--color-orange)'}} className="rounded px-3 py-1 font-bold transition hover:bg-[color:var(--color-orange)] hover:text-[color:var(--color-yellow)]">Keisti duomenis</button>
                     <button onClick={() => handleDelete(user.id)} style={{backgroundColor: 'var(--color-orange)', color: 'var(--color-brown)', border: '2px solid var(--color-yellow)'}} className="rounded px-3 py-1 font-bold transition hover:bg-[color:var(--color-yellow)] hover:text-[color:var(--color-orange)]">Trinti</button>
                   </>
                 )}
