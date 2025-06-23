@@ -1,34 +1,23 @@
 const { sql } = require("../dbConnection")
 
 
-exports.getAllBooks = async (categoryId) => {
+exports.getAllBooks = async (categoryId, search) => {
+    let query = `SELECT id, title, author, image_url, published_date, isbn, description, category_id FROM books`;
+    const params = [];
     if (categoryId) {
-        const books = await sql`
-            SELECT 
-                id,
-                title, 
-                author, 
-                image_url, 
-                published_date,
-                isbn,
-                description
-            FROM books WHERE category_id = ${categoryId}
-        `;
-        return books;
-    } else {
-        const books = await sql`
-            SELECT 
-                id,
-                title, 
-                author, 
-                image_url, 
-                published_date,
-                isbn,
-                description
-            FROM books
-        `;
-        return books;
+        params.push(`category_id = $${params.length + 1}`);
     }
+    if (search) {
+        params.push(`(title ILIKE $${params.length + 1} OR author ILIKE $${params.length + 1} OR description ILIKE $${params.length + 1})`);
+    }
+    if (params.length) {
+        query += ' WHERE ' + params.join(' AND ');
+    }
+    const values = [];
+    if (categoryId) values.push(categoryId);
+    if (search) values.push(`%${search}%`);
+    const books = await sql.unsafe(query, values);
+    return books;
 };
 
 exports.getBookById = async (id) => {

@@ -7,6 +7,7 @@ export default function Books() {
   const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:3000/api/v1/categories')
@@ -14,13 +15,14 @@ export default function Books() {
       .then(data => setCategories(data.data || []));
   }, []);
 
-  const fetchBooks = (categoryId) => {
+  const fetchBooks = (categoryId, searchTerm) => {
     setLoading(true);
     setError('');
     let url = 'http://localhost:3000/api/v1/books';
-    if (categoryId) {
-      url += `?category_id=${categoryId}`;
-    }
+    const params = [];
+    if (categoryId) params.push(`category_id=${categoryId}`);
+    if (searchTerm) params.push(`search=${encodeURIComponent(searchTerm)}`);
+    if (params.length) url += `?${params.join('&')}`;
     fetch(url)
       .then(res => res.json())
       .then(data => {
@@ -35,17 +37,25 @@ export default function Books() {
   };
 
   useEffect(() => {
-    fetchBooks(selectedCategory);
-  }, [selectedCategory]);
+    fetchBooks(selectedCategory, search);
+  }, [selectedCategory, search]);
 
   useEffect(() => {
-    fetchBooks('');
+    fetchBooks('', '');
   }, []);
 
   return (
     <div className="pt-0 px-4 mt-0">
       <div className="flex items-center mb-4 -mt-8 gap-4">
         <h1 className="text-2xl font-bold mr-4">Knygos</h1>
+        <input
+          type="text"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Ieškoti pagal pavadinimą, autorių ar aprašymą"
+          className="border rounded px-3 py-2"
+          style={{ minWidth: 200 }}
+        />
         <select
           value={selectedCategory}
           onChange={e => setSelectedCategory(e.target.value)}
